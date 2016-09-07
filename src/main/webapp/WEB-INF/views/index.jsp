@@ -7,6 +7,6 @@
 <title>helloJSP</title>
 </head>
 <body>
-	<h1>hello JSP  page.. 바꿨습다.</h1>
+	<h1>hello JSP  page.. 바꿨습다.저도 바꿨습니다.</h1>
 </body>
 </html>
