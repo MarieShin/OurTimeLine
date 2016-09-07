@@ -7,6 +7,6 @@
 <title>helloJSP</title>
 </head>
 <body>
-	<h1>hello JSP page.. ¹Ù²å½À´Ï´Ù.</h1>
+	<h1>hello JSP page.. ¹Ù²å½À´Ù.</h1>
 </body>
 </html>
