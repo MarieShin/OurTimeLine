@@ -10,5 +10,4 @@ public class OTLAdminController {
 	public String index() {
 		return "index"; // WEB-INF/views/index.jsp
 	}
-
 }
