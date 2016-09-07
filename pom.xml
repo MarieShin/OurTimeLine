@@ -46,6 +46,6 @@
 
 	</dependencies>
 	<build>
-		<finalName>contact</finalName>
+		<finalName>otl</finalName>
 	</build>
 </project>
