@@ -21,6 +21,7 @@ CREATE TABLE user_info (
    phone     INT(11)       NULL,     -- phone
    gender    INT(1)        NULL,     -- gender
    intro     VARCHAR(1000) NULL,     -- intro
+   get_setting_value INT(1) NOT NULL, -- get_setting_value
    profile_pic   INT(1)        NULL,     -- profile
    head_pic  INT(1)        NULL      -- head_pic
 );
