@@ -1,0 +1,164 @@
+-- user_info
+DROP TABLE IF EXISTS user_info RESTRICT;
+
+-- article
+DROP TABLE IF EXISTS article RESTRICT;
+
+-- category
+DROP TABLE IF EXISTS category RESTRICT;
+
+-- friend
+DROP TABLE IF EXISTS friend RESTRICT;
+
+-- reply
+DROP TABLE IF EXISTS reply RESTRICT;
+
+-- user_info
+CREATE TABLE user_info (
+   email     VARCHAR(100)  NOT NULL, -- email
+   pwd       VARCHAR(20)   NOT NULL, -- pwd
+   user_name VARCHAR(50)   NOT NULL, -- user_name
+   phone     INT(11)       NULL,     -- phone
+   gender    INT(1)        NULL,     -- gender
+   intro     VARCHAR(1000) NULL,     -- intro
+   profile_pic   INT(1)        NULL,     -- profile
+   head_pic  INT(1)        NULL      -- head_pic
+);
+
+-- user_info
+ALTER TABLE user_info
+   ADD CONSTRAINT PK_user_info -- user_info 기본키
+      PRIMARY KEY (
+         email -- email
+      );
+
+-- article
+CREATE TABLE article (
+   art_no   INT           NOT NULL, -- art_no
+   cat_no   INT           NOT NULL, -- cat_no
+   email    VARCHAR(100)  NOT NULL, -- email
+   title    VARCHAR(100)  NOT NULL, -- title
+   media    VARCHAR(200)  NULL,     -- media
+   art_con  VARCHAR(1000) NOT NULL, -- art_con
+   art_date DATE          NOT NULL, -- art_date
+   hit      INT           NULL      -- hit
+);
+
+-- article
+ALTER TABLE article
+   ADD CONSTRAINT PK_article -- article 기본키
+      PRIMARY KEY (
+         art_no, -- art_no
+         cat_no, -- cat_no
+         email   -- email
+      );
+
+ALTER TABLE article
+   MODIFY COLUMN art_no INT NOT NULL AUTO_INCREMENT;
+
+-- category
+CREATE TABLE category (
+   cat_no   INT          NOT NULL, -- cat_no
+   email    VARCHAR(100) NOT NULL, -- email
+   cat_name VARCHAR(20)  NOT NULL  -- cat_name
+);
+
+-- category
+ALTER TABLE category
+   ADD CONSTRAINT PK_category -- category 기본키
+      PRIMARY KEY (
+         cat_no, -- cat_no
+         email   -- email
+      );
+
+ALTER TABLE category
+   MODIFY COLUMN cat_no INT NOT NULL AUTO_INCREMENT;
+
+-- friend
+CREATE TABLE friend (
+   frd_no    INT          NOT NULL, -- frd_no
+   email     VARCHAR(100) NOT NULL, -- email
+   frd_email VARCHAR(100) NOT NULL  -- frd_email
+);
+
+-- friend
+ALTER TABLE friend
+   ADD CONSTRAINT PK_friend -- friend 기본키
+      PRIMARY KEY (
+         frd_no, -- frd_no
+         email   -- email
+      );
+
+ALTER TABLE friend
+   MODIFY COLUMN frd_no INT NOT NULL AUTO_INCREMENT;
+
+-- reply
+CREATE TABLE reply (
+   rep_no   INT           NOT NULL, -- rep_no
+   art_no   INT           NOT NULL, -- art_no
+   cat_no   INT           NOT NULL, -- cat_no
+   email    VARCHAR(100)  NOT NULL, -- email
+   rep_date DATE          NULL,     -- rep_date
+   rep_con  VARCHAR(1000) NULL,     -- rep_con
+   group_no    INT           NULL,     -- group
+   dept     INT           NULL      -- dept
+);
+
+-- reply
+ALTER TABLE reply
+   ADD CONSTRAINT PK_reply -- reply 기본키
+      PRIMARY KEY (
+         rep_no, -- rep_no
+         art_no, -- art_no
+         cat_no, -- cat_no
+         email   -- email
+      );
+
+ALTER TABLE reply
+   MODIFY COLUMN rep_no INT NOT NULL AUTO_INCREMENT;
+
+-- article
+ALTER TABLE article
+   ADD CONSTRAINT FK_category_TO_article -- category -> article
+      FOREIGN KEY (
+         cat_no, -- cat_no
+         email   -- email
+      )
+      REFERENCES category ( -- category
+         cat_no, -- cat_no
+         email   -- email
+      );
+
+-- category
+ALTER TABLE category
+   ADD CONSTRAINT FK_user_info_TO_category -- user_info -> category
+      FOREIGN KEY (
+         email -- email
+      )
+      REFERENCES user_info ( -- user_info
+         email -- email
+      );
+
+-- friend
+ALTER TABLE friend
+   ADD CONSTRAINT FK_user_info_TO_friend -- user_info -> friend
+      FOREIGN KEY (
+         email -- email
+      )
+      REFERENCES user_info ( -- user_info
+         email -- email
+      );
+
+-- reply
+ALTER TABLE reply
+   ADD CONSTRAINT FK_article_TO_reply -- article -> reply
+      FOREIGN KEY (
+         art_no, -- art_no
+         cat_no, -- cat_no
+         email   -- email
+      )
+      REFERENCES article ( -- article
+         art_no, -- art_no
+         cat_no, -- cat_no
+         email   -- email
+      );
