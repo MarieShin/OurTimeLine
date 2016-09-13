@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +7,6 @@
 <title>helloJSP</title>
 </head>
 <body>
-	<h1>hello JSP  page.. ¹Ù²å½À´Ù.Àúµµ ¹Ù²å½À´Ï´Ù.</h1>
+	<h1>hello JSP  page.. ë°”ê¿¨ìŠµë‹¤.ì €ë„ ë°”ê¿¨ìŠµë‹ˆë‹¤.</h1>
 </body>
 </html>
