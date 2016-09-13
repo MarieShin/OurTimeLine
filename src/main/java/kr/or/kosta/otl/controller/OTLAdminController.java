@@ -8,6 +8,6 @@ public class OTLAdminController {
 
 	@RequestMapping(value = "/")
 	public String index() {
-		return "index"; // WEB-INF/views/index.jsp
+		return "login"; // WEB-INF/views/index.jsp
 	}
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MemberMapper">
+
+	<!-- 회원가입 -->
+	<insert id="join">
+	INSERT 
+	INTO s_member
+	VALUES(#{m.mem_seq}, #{m.id}, #{m.pw}, #{m.name}, #{m.auth})
+	</insert>
+	<!-- 아이디체크 -->
+	<select id="idchk" resultType="Member">
+	select * 
+	from s_member
+	where id = #{id}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="Member">
+	select * 
+	from s_member
+	where id = #{id}
+	</select>
+	
+	<!-- 회원 번호 -->
+	<select id="getCnt" resultType="int">
+	select max(mem_seq) 
+	from s_member
+	</select>
+	
+	<!-- 전체회원 가져오기 -->
+	<select id="getAllMem" resultType="Member">
+	select * from s_member
+	</select>
+	
+	<!-- 회원삭제하기 -->
+	<delete id="delMem" >
+	delete from s_member where mem_seq=#{memseq}
+	</delete>
+
+</mapper>

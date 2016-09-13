@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.BoardMapper">
+
+    <!-- 전체 가져오기 -->
+    <select id="getAll" resultType="Board">
+    select * from s_board order by p_no desc, reply_seq;
+    </select>
+    
+    <!-- 조회수 변경-->
+    <update id="addCnt"  >
+    update s_board set hits=hits+1 where board_seq = #{board_seq}
+    </update>
+    
+    <!--파일 카운트 변경 -->
+    <update id="updateFileCnt"  >
+    update s_board set filecnt = #{board.fileCnt} where board_seq = #{board.board_seq}
+    </update>
+    
+    
+    <!-- 페이지 수에 맞게 가져오기 -->
+    <select id="getPageBoard"   resultType="Board">
+  	 SELECT * FROM s_board ORDER BY p_no DESC, reply_seq LIMIT #{pageInfo.startRow}, #{pageInfo.pageRecordSize};
+    </select>
+         
+    <!-- 작성자, 페이지 수에 맞게 가져오기 -->
+    <select id="getByWriter"  resultType="Board">
+  	 SELECT * FROM s_board where writer LIKE concat('%', #{map.contents},'%') ORDER BY p_no DESC, reply_seq LIMIT #{map.pageInfo.startRow}, #{map.pageInfo.pageRecordSize};
+    </select>
+     
+    <!-- 제목, 페이지 수에 맞게 가져오기 -->
+    <select id="getByTitle" resultType="Board">
+  	 SELECT * FROM s_board where title LIKE concat('%', #{map.contents},'%') ORDER BY p_no DESC, reply_seq LIMIT #{map.pageInfo.startRow}, #{map.pageInfo.pageRecordSize};
+    </select>
+    
+ 	<!-- 글내용, 페이지 수에 맞게 가져오기 -->
+    <select id="getByContents"  resultType="Board">
+  	 SELECT * FROM s_board where contents LIKE concat('%', #{map.contents},'%') ORDER BY p_no DESC, reply_seq LIMIT #{map.pageInfo.startRow}, #{map.pageInfo.pageRecordSize};
+    </select>
+    
+  	 <!-- 파일 이름,페이지 수에 맞게 가져오기 -->
+    <select id="getByFilename"  resultType="Board"> 
+    SELECT * 
+	FROM s_board
+	WHERE board_seq IN(SELECT DISTINCT board_seq
+						FROM s_file
+						WHERE filename1 LIKE concat('%', #{map.contents},'%')
+						)
+    ORDER BY p_no DESC, reply_seq LIMIT #{map.pageInfo.startRow}, #{map.pageInfo.pageRecordSize};
+    </select>
+    
+    
+    
+    <!-- SEQ가져오기 -->
+    <select id="getSeq" resultType="int">
+    select max(board_seq) from s_board;
+    </select>
+   
+    <select id="getCnt"  resultType="int">
+    select count(*) from s_board;
+    </select>
+    
+    <select id="getByWriterBoardCnt"   resultType="int">
+    select count(*) from s_board where writer LIKE concat('%', #{contents},'%') ;
+    </select>
+    
+    <select id="getByTitleBoardCnt"  resultType="int">
+    select count(*) from s_board where title LIKE concat('%', #{contents},'%') ;
+    </select>
+    
+    <select id="getByContentsBoardCnt" resultType="int">
+    select count(*) from s_board where contents LIKE concat('%', #{contents},'%') ;
+    </select>
+    
+    <select id="getByFilenameBoardCnt"   resultType="int">
+    SELECT count(*)
+	FROM s_board
+	WHERE board_seq IN(SELECT DISTINCT board_seq
+						FROM s_file
+						WHERE filename1 LIKE concat('%', #{contents},'%')
+						);
+    </select>
+    
+    
+    
+    
+    
+    
+    <!-- REPSEQ가져오기 -->
+    <select id="getRepSeq" resultType="int">
+    select max(reply_seq) from s_board where p_no=#{b.p_no} and dept=#{b.dept}
+    </select>
+    
+     <!-- p_no에서 가장 큰 REPSEQ가져오기 -->
+    <select id="getRepSeq2" resultType="int">
+    select max(reply_seq) from s_board where p_no=#{p_no}
+    </select>
+    
+     <!-- 부모글과 같은 깊이의 다음단계 Repseq찾기 -->
+    <select id="getSameDeptNextReq" resultType="int">
+    select min(reply_seq) from s_board where p_no=#{b.p_no} and dept=#{b.dept} and reply_seq > #{b.reply_seq}
+    </select>
+    
+    <!-- pno와 repseq로 게시글 찾기 -->
+    <select id="getByRepSeq" resultType="Board">
+    select * from s_board where p_no=#{board.p_no} and reply_seq=#{board.reply_seq}
+    </select>
+    
+    <!-- 답글 쓸때 순서 변경하기 -->
+	<!-- ex)update khboard set reply_seq=reply_seq+1 where p_no=50 and reply_seq> 2 -->
+    <update id="updateRepSeq" >
+    update s_board set reply_seq = reply_seq+1
+    where p_no=#{b.p_no} and reply_seq >= #{b.reply_seq}
+    </update>
+    
+    <!-- 글쓰기 -->
+    <insert id="write">
+    insert into s_board
+    values(#{board.board_seq},#{board.writer},#{board.title},#{board.contents},#{board.hits},#{board.reg_date},
+    #{board.dept},#{board.reply_seq},#{board.p_no},#{board.fileCnt},#{board.isDel},#{board.writername})
+    </insert>
+    
+     <!-- SEQ로 글가져오기 -->
+    <select id="getBySeq"  resultType="Board">
+    select * from s_board where board_seq = #{no}
+    </select>
+    
+    <!-- pno에 맞는 리스트 가져오기 -->
+    <select id="getByPno" resultType="list">
+    select * from s_board where p_no = #{p_no}
+    </select>
+    
+    <!-- 삭제하기(수정임) -->
+    <update id="delete" >
+    update s_board set isDel = 1 where board_seq=#{no} 
+    </update>
+    
+    <!-- 수정하기 -->
+    <update id="update">
+    update s_board set contents=#{b.contents}, title=#{b.title} where board_seq=#{b.board_seq} 
+    </update>
+	
+</mapper>

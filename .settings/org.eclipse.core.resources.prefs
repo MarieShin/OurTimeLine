@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//src/main/java/kr/or/kosta/otl/controller=UTF-8
+encoding//src/main/java/kr/or/kosta/otl/mapper/BoardMapper.java=UTF-8
+encoding//src/main/java/kr/or/kosta/otl/mapper/MemberMapper.java=UTF-8
+encoding//src/main/java/kr/or/kosta/otl/service/BoardService.java=UTF-8
+encoding//src/main/java/kr/or/kosta/otl/service/MemberService.java=UTF-8
+encoding//src/main/java/kr/or/kosta/otl/utils/DownloadView.java=UTF-8
+encoding/<project>=UTF-8
